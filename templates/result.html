@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sentiment Analysis on Tweets</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+<link href='https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+</head>
+<body >
+<div class="container" >
+    <div class="row" style="padding:50px;">
+        <h1>Sentiment Analysis on Tweets</h1>
+        <div >
+            <table id='tweetTable' class='display dataTable cell-border stripe' width='100%'>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>USER</th>
+                    <th>TWEET</th>
+                    <th>SENTIMENT</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+   </div>
+</div>
+<script>
+$(document).ready(function() {
+    var table = $('#tweetTable').DataTable({
+    processing: true,
+    serverSide: true,
+    serverMethod: 'post',
+    ajax: {
+    url: '/get-tweets',
+    dataSrc: 'data'
+    },
+    search: {
+        return: true,
+    },
+    columns: [
+            { data: 'id' },
+            { data: 'user' },
+            { data: 'tweet' },
+            { data: 'sentiment' },
+       ]
+    });
+});
+</script>
+</body>
+</html>
