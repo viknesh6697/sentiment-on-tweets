@@ -2,18 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sentiment Analysis on Tweets</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-<link href='https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <title >Sentiment Analysis on Tweets</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <link href='https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 </head>
 <body >
 <div class="container" >
     <div class="row" style="padding:50px;">
-        <h1>Sentiment Analysis on Tweets</h1>
-        <div >
+        <h1 style="text-align: center;">Sentiment Analysis on Tweets</h1>
+        <div style="text-align: center; margin:auto; padding: 30px;">
+            <input type="text" id="searchBox" placeholder="Search Tweets...">
+            <button type="button" id="SearchButton">Submit</button>
+        </div>
+        <div>
             <table id='tweetTable' class='display dataTable cell-border stripe' width='100%'>
                 <thead>
                 <tr>
@@ -29,30 +33,36 @@
 </div>
 <script>
 $(document).ready(function() {
-    var table = $('#tweetTable').DataTable({
-    processing: true,
-    serverSide: true,
-    serverMethod: 'post',
-    ajax: {
-    url: '/get-tweets',
-    dataSrc: 'data'
-    },
-    search: {
-        return: true,
-    },
-    columns: [
-            { data: 'id' },
-            { data: 'user' },
-            { data: 'tweet' },
-            { data: 'sentiment' },
-       ]
-    });
-});
+    $("#tweetTable").hide();
+    $("#SearchButton").on("click", function (event) {
+        var searchText = $("#searchBox").val();
+        $("#tweetTable").show();
+        $('#tweetTable').DataTable({
+            destroy: true,
+            processing: true,
+            serverSide: true,
+            serverMethod: 'post',
+            ajax: {
+            url: '/get-tweets',
+            data: { searchText: searchText },
+            dataSrc: 'rows',
+            },
+            searching: false,
+            info: false,
+            columns: [
+                    { data: 'id' },
+                    { data: 'user' },
+                    { data: 'tweet' },
+                    { data: 'sentiment' },
+               ]
+            });
+        });
+   });
 </script>
 </body>
 <footer style="text-align: center;">
     <div class="container">
-    <p>Developer: Vikneshvar</p>
+    <p>Developed by: Vikneshvar</p>
     <p><a href="https://www.linkedin.com/in/vikneshvar-balasubramanian-6b2926161/">Linkedin</a>
         <a href="https://github.com/viknesh6697">Github</a>
     </p>

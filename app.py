@@ -18,14 +18,15 @@ def temp_search():
 
 @app.route('/get-tweets', methods=['GET', 'POST'])
 def temp_sentiment():
-    keyword = request.form["search[value]"]
+    keyword = request.form["searchText"]
+    print(keyword)
     rows_per_page = int(request.form['length'])
     print(rows_per_page)
     tweets = []
     if len(keyword.strip()) > 0:
         client = Twitter(tw_apikey, tw_apikey_secret, tw_access_token, tw_access_token_secret)
         tweets = client.get_tweets(keyword, rows_per_page)
-    return jsonify({"data": tweets})
+    return jsonify({"rows": tweets})
 
 
 if __name__ == '__main__':
